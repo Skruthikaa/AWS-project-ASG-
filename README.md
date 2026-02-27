@@ -100,30 +100,20 @@ Allow:
 
 * HTTP (80) → From Anywhere (temporary for setup)
 * SSH (22) → Your IP only
-* <img width="1910" height="830" alt="Screenshot 2026-02-25 164745" src="https://github.com/user-attachments/assets/83181cc1-6f93-4a69-ae00-fb3fa07fb8b3" />
+ <img width="1910" height="830" alt="Screenshot 2026-02-25 164745" src="https://github.com/user-attachments/assets/83181cc1-6f93-4a69-ae00-fb3fa07fb8b3" />
 <img width="1917" height="837" alt="Screenshot 2026-02-25 165012" src="https://github.com/user-attachments/assets/3ee6df37-ff4d-48ff-a8d5-b48b73db4a73" />
 <img width="1905" height="805" alt="Screenshot 2026-02-25 165237" src="https://github.com/user-attachments/assets/cc18d3c0-5a6b-49a2-a379-643e102f917f" />
 
-
-### 3️ Install Web Server
-
-SSH into instance:
-
-```bash
-sudo yum update -y
-sudo yum install httpd -y
-sudo systemctl start httpd
-sudo systemctl enable httpd
-```
-
-Create test page:
-
-```bash
-echo "Hello from $(hostname)" | sudo tee /var/www/html/index.html
-```
-
+### 3️ User data:
+#!/bin/bash
+yum update -y
+yum install httpd -y
+systemctl start httpd
+systemctl enable httpd
+echo "<h1>HTML + CSS + JavaScript code</h1>" > /var/www/html/index.html
 Test:
-Open public IP → You should see hostname message.
+Open public IP 
+<img width="1919" height="949" alt="Screenshot 2026-02-26 104011" src="https://github.com/user-attachments/assets/a538d541-bf8a-4186-94ea-c67fc88346ec" />
 
 ---
 
@@ -160,8 +150,12 @@ Inbound:
 
 * HTTP (80) → From ALB Security Group only
 * SSH (22) → Your IP only
+* <img width="1910" height="830" alt="Screenshot 2026-02-25 164745" src="https://github.com/user-attachments/assets/13e461fc-f085-4b85-80c5-fbbeec24d77f" />
+* <img width="1917" height="837" alt="Screenshot 2026-02-25 165012" src="https://github.com/user-attachments/assets/965881cf-3616-4b03-a9ee-35d4579d7945" />
+<img width="1905" height="805" alt="Screenshot 2026-02-25 165237" src="https://github.com/user-attachments/assets/60b74a78-7c6b-4572-95c1-1e73ec87f98e" />
 
 Click **Create Launch Template**
+<img width="1905" height="812" alt="Screenshot 2026-02-25 165735" src="https://github.com/user-attachments/assets/571042c0-d251-4631-ba8f-ae748963d91b" />
 
 ---
 
@@ -176,6 +170,8 @@ EC2 → Target Groups → Create Target Group
 * Protocol: HTTP
 * Port: 80
 * VPC: Default or your lab VPC
+* <img width="1919" height="765" alt="Screenshot 2026-02-25 165850" src="https://github.com/user-attachments/assets/c4a78df1-d07a-45dd-8eb1-15eaddcb1b8d" />
+<img width="1910" height="748" alt="Screenshot 2026-02-25 165918" src="https://github.com/user-attachments/assets/383df78b-648f-42b8-ab2a-4a30366c7c52" />
 
 ### Health Check:
 
@@ -185,6 +181,7 @@ EC2 → Target Groups → Create Target Group
 * Interval: 30 sec
 
 Create Target Group
+<img width="1910" height="754" alt="Screenshot 2026-02-25 170426" src="https://github.com/user-attachments/assets/d40ed3f6-8cca-4130-ad3b-3a1120feebad" />
 
 ---
 
@@ -202,12 +199,15 @@ EC2 → Load Balancers → Create Load Balancer → Application Load Balancer
 Inbound:
 
 * HTTP (80) → Anywhere (0.0.0.0/0)
+<img width="1913" height="752" alt="Screenshot 2026-02-26 104232" src="https://github.com/user-attachments/assets/5d8333f1-2bfd-4651-9260-4772cfbd7bf1" />
 
 ### Listener:
 
 * Forward to Target Group (created earlier)
 
 Create Load Balancer
+<img width="1918" height="831" alt="Screenshot 2026-02-25 173850" src="https://github.com/user-attachments/assets/cc36e067-be73-4a2f-be34-cf69850ef6d1" />
+
 
 ---
 
@@ -225,6 +225,10 @@ EC2 → Auto Scaling Groups → Create ASG
 * Health check type:
 
   * EC2 + ELB
+  * <img width="1919" height="797" alt="Screenshot 2026-02-25 181433" src="https://github.com/user-attachments/assets/37ba9aba-6712-4218-bce7-8a518ce6580b" />
+<img width="1900" height="830" alt="Screenshot 2026-02-25 181447" src="https://github.com/user-attachments/assets/46d798d3-fc27-434e-945d-86632428d8f5" />
+<img width="1889" height="745" alt="Screenshot 2026-02-25 181527" src="https://github.com/user-attachments/assets/17cea2dd-1d83-420f-a5f9-92a802f5b1a0" />
+<img width="1902" height="819" alt="Screenshot 2026-02-25 181858" src="https://github.com/user-attachments/assets/a80a3c80-08a0-4e47-9739-70efc9a3fceb" />
 
 ### Group Size:
 
@@ -233,6 +237,7 @@ EC2 → Auto Scaling Groups → Create ASG
 * Maximum: 4
 
 Create ASG
+<img width="1898" height="828" alt="Screenshot 2026-02-25 182202" src="https://github.com/user-attachments/assets/dead527a-7cbb-456b-ba3b-1e29bc32450a" />
 
 ---
 
@@ -247,6 +252,7 @@ Inside ASG → Automatic Scaling
 * Type: Target tracking
 * Metric: Average CPU Utilization
 * Target value: 70%
+* 
 
 OR Simple scaling:
 
@@ -254,6 +260,9 @@ OR Simple scaling:
 
   * CPU ≥ 70%
   * Add 1 instance
+  * <img width="1918" height="771" alt="Screenshot 2026-02-26 120351" src="https://github.com/user-attachments/assets/d27946df-b563-46cb-b2b4-e7c37d501656" />
+<img width="1919" height="708" alt="Screenshot 2026-02-26 120401" src="https://github.com/user-attachments/assets/d22b3500-08f4-4b6f-b30f-619628e40fba" />
+<img width="1919" height="798" alt="Screenshot 2026-02-26 120735" src="https://github.com/user-attachments/assets/4e7ff7ce-1034-4e39-ad3e-22417658b9b9" />
 
 ---
 
@@ -261,19 +270,17 @@ OR Simple scaling:
 
 * CPU ≤ 30%
 * Remove 1 instance
+<img width="1913" height="770" alt="Screenshot 2026-02-26 121643" src="https://github.com/user-attachments/assets/3e500e7f-ed37-4fe5-b9b2-81b4f7d33e88" />
+<img width="1919" height="785" alt="Screenshot 2026-02-26 121653" src="https://github.com/user-attachments/assets/c492038c-4e75-431b-9742-6cbb6e41745e" />
+<img width="1919" height="767" alt="Screenshot 2026-02-26 121918" src="https://github.com/user-attachments/assets/c40371cf-e8aa-4618-903a-e0428029874b" />
+<img width="1913" height="648" alt="Screenshot 2026-02-26 122435" src="https://github.com/user-attachments/assets/5fb6ebf8-62ce-4681-830c-93b65c3101f5" />
 
 ---
 
-#  STEP 8: Test Scaling
+#  STEP 8: Test Scaling:
 
-### Generate CPU Load
-
-SSH into instance:
-
-```bash
-sudo yum install stress -y
-stress --cpu 2 --timeout 300
-```
+<img width="1918" height="790" alt="Screenshot 2026-02-26 123322" src="https://github.com/user-attachments/assets/d50420e9-6380-4b18-94b3-0ef51c3d98ac" />
+<img width="1676" height="791" alt="Screenshot 2026-02-27 102200" src="https://github.com/user-attachments/assets/cdd53f53-19f7-46ed-a971-e2ccc84e8eb5" />
 
 Monitor:
 
