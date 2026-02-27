@@ -1,4 +1,8 @@
 #  TASK 1: Highly Available Web Application with Auto Scaling (AWS)
+
+## This project demonstrates the design and implementation of a highly available and production-ready web application infrastructure on Amazon EC2 within Amazon Web Services.
+
+The objective is to build a fault-tolerant system capable of handling unpredictable traffic spikes without downtime. To achieve this, the architecture leverages a Multi-Availability Zone deployment strategy combined with Auto Scaling and Layer 7 load balancing.
 ---
 #  Architecture Overview
 
